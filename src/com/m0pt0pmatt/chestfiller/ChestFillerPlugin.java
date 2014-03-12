@@ -32,50 +32,67 @@ public class ChestFillerPlugin extends JavaPlugin{
 			
 			public void run(){
 				
+				getLogger().info("Thread started");
+				
 				while (Bukkit.getWorld("Wilderness") == null){
 					try {
 						Thread.sleep(2000);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
 				
-				Bukkit.getWorld("Wilderness").getPopulators().add(new BlockPopulator(){
-
-					Random r = new Random();
+				getLogger().info("Wilderness exists");
+				
+				if (Bukkit.getWorld("Wilderness").getPopulators().size() <= 1){
+				
+					getLogger().info("Added populator");
 					
-					@Override
-					public void populate(World world, Random arg1, Chunk chunk) {
-						// TODO Auto-generated method stub
-						for (BlockState bs: chunk.getTileEntities()){
-							
-							if (bs.getType().equals(Material.CHEST)){
-							
-								int count = 0;
+					Bukkit.getWorld("Wilderness").getPopulators().add(new BlockPopulator(){
+	
+						Random r = new Random();
+						
+						@Override
+						public void populate(World world, Random arg1, Chunk chunk) {
+							for (BlockState bs: chunk.getTileEntities()){
 								
-								org.bukkit.block.Chest chest = (org.bukkit.block.Chest)bs;
+								if (bs.getType().equals(Material.CHEST)){
 								
-								
-								for (Entry<ItemStack, Integer> entry: items.entrySet()){
-									int rand = r.nextInt(100);
+									getLogger().info("Found a chest at x:" + bs.getX() + " y:" + bs.getY() + " z:" + bs.getZ());
 									
-									if (rand >= entry.getValue()){
-										chest.getInventory().addItem(entry.getKey().clone());
-										if (count > 5){
-											break;
+									int count = 0;
+									
+									org.bukkit.block.Chest chest = (org.bukkit.block.Chest)bs;		
+									
+									for (Entry<ItemStack, Integer> entry: items.entrySet()){
+										int rand = r.nextInt(100);
+										
+										if (rand >= entry.getValue()){
+											getLogger().info("Added " + entry.getKey());
+											
+											chest.getInventory().addItem(entry.getKey().clone());
+											if (count > 5){
+												break;
+											}
 										}
 									}
+									
 								}
 								
 							}
-							
 						}
-					}
-					
-				});
+						
+					});
+			
+				}
 			}	
 		};
+	
+	
+		if (first) {
+			thread.start();
+			first = false;
+		}
 	}
 	
 }

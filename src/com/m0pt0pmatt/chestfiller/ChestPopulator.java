@@ -18,10 +18,7 @@ import org.bukkit.material.SpawnEgg;
 public class ChestPopulator extends BlockPopulator{
 
 	private Map<ItemStack, Integer> items = new HashMap<ItemStack, Integer>();
-
-	private Entry<ItemStack, Integer>[] itemlist;
 	
-	@SuppressWarnings("unchecked")
 	public ChestPopulator(){
 		items.put(new ItemStack(Material.WEB), 100);
 		items.put(new ItemStack(Material.CHAINMAIL_BOOTS), 20);
@@ -53,7 +50,6 @@ public class ChestPopulator extends BlockPopulator{
 		items.put(new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.WITHER.ordinal()), 10);
 		items.put(new ItemStack(Material.SKULL_ITEM, 1, (short)SkullType.ZOMBIE.ordinal()), 10);
 		
-		itemlist = (Entry<ItemStack, Integer>[]) items.entrySet().toArray();
 	}
 	
 	private Random r = new Random();
@@ -70,12 +66,11 @@ public class ChestPopulator extends BlockPopulator{
 				
 				for(int count = 0; count > 5; index++){
 					
-					Entry<ItemStack, Integer> entry = itemlist[index % itemlist.length];
-					
 					int rand = r.nextInt(100);
+					Entry<ItemStack, Integer>
 					
-					if (entry.getValue() >= rand){
-						chest.getInventory().addItem(entry.getKey().clone());
+					if (valuelist[index % valuelist.length] >= rand){
+						chest.getInventory().addItem(itemlist[index % itemlist.length].clone());
 						count++;
 					}
 				}

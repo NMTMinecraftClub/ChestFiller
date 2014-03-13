@@ -8,20 +8,16 @@ public class ChestThread extends Thread{
 				
 		while (Bukkit.getWorld("Wilderness") == null){
 			try {
-				Thread.sleep(2000);
+				Thread.sleep(2);
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 		}
-				
-		try {
-			Thread.sleep(2000);
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		}
 		
 		if (Bukkit.getWorld("Wilderness").getPopulators().size() <= 1){
-					
+			
+			
+			System.out.println("Added populator!!!!!!!!!!!!!!!");
 			Bukkit.getWorld("Wilderness").getPopulators().add(new ChestPopulator());
 	
 		}
